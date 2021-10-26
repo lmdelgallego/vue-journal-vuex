@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <div class="d-flexq">
+  <div class="d-flex">
     <div class="col-4">
       <Entrylist />
     </div>
