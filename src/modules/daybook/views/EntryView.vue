@@ -27,7 +27,7 @@
     class="img-thumbnail"
   />
 
-  <Fab />
+  <Fab icon="fa-save" />
 </template>
 
 <script>
