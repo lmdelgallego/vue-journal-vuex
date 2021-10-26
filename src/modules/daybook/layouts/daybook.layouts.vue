@@ -1,9 +1,23 @@
 <template>
-  <h1>Daybook</h1>
+  <Navbar />
+  <div class="d-flexq">
+    <div class="col-4">
+      <Entrylist />
+    </div>
+    <div class="col">
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <script>
-export default {};
+import { defineAsyncComponent } from "vue";
+export default {
+  components: {
+    Navbar: defineAsyncComponent(() => import("../components/Navbar")),
+    Entrylist: defineAsyncComponent(() => import("../components/Entrylist")),
+  },
+};
 </script>
 
 <style>
