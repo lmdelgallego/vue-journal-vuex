@@ -68,7 +68,7 @@ export default {
     }
   },
   methods:{
-    ...mapActions('journal', ['updateEntry']),
+    ...mapActions('journal', ['updateEntry', 'createEntry']),
     loadEntry(){
 
       let entry;
@@ -86,10 +86,11 @@ export default {
     },
     async saveEntry(){
       if (this.entry.id) {
-        this.updateEntry(this.entry);
+        await this.updateEntry(this.entry);
       } else {
-        // Crear nueva entrada
-        console.log('Post de una nueva entrada');
+        const id = await this.createEntry(this.entry);
+        console.log(id);
+        this.$router.push({name: 'daybook-entry', params: {id}});
       }
 
     }
