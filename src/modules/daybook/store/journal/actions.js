@@ -15,10 +15,16 @@ export const loadEntries = async ({commit}) => {
   commit('setEntries', entries);
 }
 
-export const createEntry = async ({commit}) => {
-    console.log(commit);
+export const createEntry = async ({commit},entry) => {
+  console.log(entry);
+  console.log(commit)
+  // await journalApi.put(`/${entry.id}.json`, entry );
+
 }
 
-export const updateEntry = async ({commit}) => {
-    console.log(commit);
+export const updateEntry = async ({commit}, entry) => {
+  const {date, picture, text} = entry;
+  const dataToSave = {date,picture,text};
+  await journalApi.put(`/entries/${entry.id}.json`, dataToSave );
+  commit('updateEntries', {...entry});
 }
