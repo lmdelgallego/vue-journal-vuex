@@ -2,7 +2,7 @@
 export const myMutation = (state) => {
 
 }
-* */
+*/
 
 export const setEntries = (state, entries) => {
   state.entries = [...state.entries, ...entries];
@@ -15,4 +15,9 @@ export const updateEntries = (state, entry) => {
 }
 export const addEntries = (state, entry) => {
   state.entries = [entry, ...state.entries];
+}
+
+// remove entry
+export const removeEntry = (state, id) => {
+  state.entries = state.entries.filter( e => e.id !== id );
 }

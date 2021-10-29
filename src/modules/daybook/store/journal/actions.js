@@ -8,6 +8,12 @@ import journalApi from '@/api/journalApi';
 
 export const loadEntries = async ({commit}) => {
   const {data} = await journalApi.get('/entries.json');
+
+  if(!data) {
+    commit('setEntries', []);
+    return;
+  }
+
   const entries = [];
   for (let id of Object.keys(data))  {
       entries.push({id, ...data[id]})
@@ -29,4 +35,10 @@ export const updateEntry = async ({commit}, entry) => {
   const dataToSave = {date,picture,text};
   await journalApi.put(`/entries/${entry.id}.json`, dataToSave );
   commit('updateEntries', {...entry});
+}
+
+//delete entry
+export const removeEntry = async ({commit}, entry) => {
+  await journalApi.delete(`/entries/${entry.id}.json`);
+  commit('removeEntry', entry.id);
 }
