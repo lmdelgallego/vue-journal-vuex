@@ -5,6 +5,7 @@ export const myAction = async ({commit}) => {
 */
 
 import journalApi from '@/api/journalApi';
+// import { deleteImage } from '@/helpers/imageApi';
 
 export const loadEntries = async ({commit}) => {
   const {data} = await journalApi.get('/entries.json');
@@ -40,5 +41,6 @@ export const updateEntry = async ({commit}, entry) => {
 //delete entry
 export const removeEntry = async ({commit}, entry) => {
   await journalApi.delete(`/entries/${entry.id}.json`);
+  // await deleteImage(entry.picture_id);
   commit('removeEntry', entry.id);
 }

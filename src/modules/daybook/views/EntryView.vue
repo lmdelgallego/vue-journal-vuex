@@ -52,7 +52,7 @@ import { defineAsyncComponent } from "vue";
 import {mapActions, mapGetters} from 'vuex';
 import getDayMonthYear from '@/modules/daybook/helpers/getDayMonthYear';
 import Swal from 'sweetalert2';
-import uploadImage from '@/helpers/uploadImage';
+import uploadImage from '@/helpers/imageApi';
 
 export default {
   props:{
@@ -112,9 +112,10 @@ export default {
 
       Swal.showLoading();
 
-      const picture = await uploadImage(this.file);
+      const { picture, picture_id } = await uploadImage(this.file);
 
       this.entry.picture = picture;
+      this.entry.picture_id = picture_id;
 
       if (this.entry.id) {
         await this.updateEntry(this.entry);
