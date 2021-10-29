@@ -8,6 +8,7 @@
     </div>
 
     <div>
+      <input type="file" @change="onSelectedImage">
       <button class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
         Borrar <i class="fa fa-trash-alt"></i>
       </button>
@@ -22,11 +23,21 @@
     <textarea placeholder="Que sucedio hoy" v-model="entry.text"></textarea>
   </div>
 
-  <img
+  <!-- <img
     src="https://i.blogs.es/94ad8d/inside-plane-hanger-looking-down/1366_2000.jpg"
     alt="entry-picture"
     class="img-thumbnail"
+  /> -->
+
+  <div class="entry-picture" v-if="localImage">
+    <div class="btnClose" @click="localImage = null; file = null">X</div>
+    <img
+    :src="localImage"
+    alt="entry-picture"
+    class="img-thumbnail"
   />
+  </div>
+
 
   </template>
   <Fab icon="fa-save" @on:click="saveEntry" />
@@ -50,7 +61,9 @@ export default {
   },
   data() {
     return {
-      entry: null
+      entry: null,
+      localImage: null,
+      file: null
     }
   },
   computed: {
@@ -124,7 +137,16 @@ export default {
         this.$router.push({name: 'daybook-no-entry'});
         Swal.fire('Borrado','Se ha borrado correctamente','success');
       }
-    }
+    },
+    onSelectedImage(event){
+      const file = event.target.files[0];
+      if (!file) return;
+      this.file = file;
+      const reader = new FileReader();
+      reader.onload = (e) => this.localImage= e.target.result;
+      reader.readAsDataURL(file);
+    },
+    onSelectImage(){}
   },
   created() {
     this.loadEntry();
@@ -146,11 +168,33 @@ export default {
       outline: none;
     }
   }
-  img {
+  .entry-picture {
     width: 200px;
     position: fixed;
     bottom: 150px;
     right: 20px;
     box-shadow: 0 5px 10px rgba($color: #000000, $alpha: 0.2);
+    .btnClose{
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1rem;
+      background: white;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 100%;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba($color: #000000, $alpha: 0.2);
+      transition: all 0.3s ease;
+      &:hover {
+        background: red;
+        color: white;
+      }
+      &:active {
+        transform: scale(0.9);
+      }
+    }
   }
 </style>
