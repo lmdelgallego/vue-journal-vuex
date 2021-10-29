@@ -8,7 +8,7 @@
     </div>
 
     <div>
-      <input type="file" @change="onSelectedImage" ref="imageSelector" accept="image/png, image/jpeg, image/gif">
+      <input type="file" @change="onSelectedImage" ref="imageSelector" accept="image/png, image/jpeg, image/gif" v-show="false">
       <button class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
         Borrar <i class="fa fa-trash-alt"></i>
       </button>
@@ -23,11 +23,15 @@
     <textarea placeholder="Que sucedio hoy" v-model="entry.text"></textarea>
   </div>
 
-  <!-- <img
-    src="https://i.blogs.es/94ad8d/inside-plane-hanger-looking-down/1366_2000.jpg"
+<div class="entry-picture" v-if="entry.picture && !localImage">
+<img
+    v-if="entry.picture"
+    :src="entry.picture"
     alt="entry-picture"
     class="img-thumbnail"
-  /> -->
+  />
+</div>
+
 
   <div class="entry-picture" v-if="localImage">
     <div class="btnClose" @click="deleteImage">X</div>
@@ -48,6 +52,7 @@ import { defineAsyncComponent } from "vue";
 import {mapActions, mapGetters} from 'vuex';
 import getDayMonthYear from '@/modules/daybook/helpers/getDayMonthYear';
 import Swal from 'sweetalert2';
+import uploadImage from '@/helpers/uploadImage';
 
 export default {
   props:{
@@ -107,6 +112,10 @@ export default {
 
       Swal.showLoading();
 
+      const picture = await uploadImage(this.file);
+
+      this.entry.picture = picture;
+
       if (this.entry.id) {
         await this.updateEntry(this.entry);
       } else {
@@ -114,6 +123,7 @@ export default {
         this.$router.push({name: 'daybook-entry', params: {id}});
       }
       Swal.fire('Guardado','Se ha guardado correctamente','success');
+      this.deleteImage();
     },
     async deleteEntry(){
       const {isConfirmed} = await Swal.fire({
