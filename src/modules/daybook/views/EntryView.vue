@@ -8,12 +8,12 @@
     </div>
 
     <div>
-      <input type="file" @change="onSelectedImage">
+      <input type="file" @change="onSelectedImage" ref="imageSelector" accept="image/png, image/jpeg, image/gif">
       <button class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
         Borrar <i class="fa fa-trash-alt"></i>
       </button>
 
-      <button class="btn btn-primary">
+      <button class="btn btn-primary" @click="onSelectImage">
         Subir foto <i class="fa fa-upload"></i>
       </button>
     </div>
@@ -30,7 +30,7 @@
   /> -->
 
   <div class="entry-picture" v-if="localImage">
-    <div class="btnClose" @click="localImage = null; file = null">X</div>
+    <div class="btnClose" @click="deleteImage">X</div>
     <img
     :src="localImage"
     alt="entry-picture"
@@ -146,7 +146,14 @@ export default {
       reader.onload = (e) => this.localImage= e.target.result;
       reader.readAsDataURL(file);
     },
-    onSelectImage(){}
+    onSelectImage(){
+      this.$refs.imageSelector.click();
+    },
+    deleteImage(){
+      this.localImage = null;
+      this.file = null;
+      this.$refs.imageSelector.value = null;
+    }
   },
   created() {
     this.loadEntry();
