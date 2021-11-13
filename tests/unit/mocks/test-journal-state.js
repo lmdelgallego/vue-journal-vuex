@@ -16,3 +16,10 @@ export const testJournalState = {
     },
   ]
 }
+
+export const testJournalEntry = {
+  id: '-MnCjB_O5dsObPue_y1P',
+  date: 1635539262122,
+  picture: "https://res.cloudinary.com/alucardluis/image/upload/v1635539273/t0hruhdohpmdmmcz29nx.png",
+  text: "zwxerctyvubinop"
+}
