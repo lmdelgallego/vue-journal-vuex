@@ -1,6 +1,6 @@
 import {createStore} from 'vuex';
 import journal from '@/modules/daybook/store/journal';
-import {testJournalState, testJournalEntry} from '../../../../mocks/test-journal-state';
+import {testJournalState, testJournalEntry} from 'tests/unit/mocks/test-journal-state';
 
 
 const createVuexStore = (initialState) => createStore({
@@ -45,6 +45,24 @@ describe('Vuex - Test of journal store', () => {
       expect(isLoading).toBeFalsy();
       expect(entries.find( e => e.id === newEntry.id).text)
         .toEqual('Hola Mundo desde prueba');
+    });
+
+    test('addEntry', () => {
+      const store = createVuexStore(testJournalState);
+      const newEntry = {
+        id: 't1',
+        date: new Date().getTime(),
+        text: 'Hola Mundo desde prueba'
+      }
+      store.commit('journal/addEntries', newEntry);
+      const {isLoading, entries} = store.state.journal;
+      expect(entries.length).toBe(3);
+      expect(isLoading).toBeFalsy();
+      expect(entries.findIndex( e => e.id === newEntry.id)).not.toBe(-1);
+
+      store.commit('journal/removeEntry', 't1');
+      expect(store.state.journal.entries.length).toBe(2);
+      expect(store.state.journal.entries.findIndex( e => e.id === newEntry.id)).toBe(-1);
     });
 
   })
