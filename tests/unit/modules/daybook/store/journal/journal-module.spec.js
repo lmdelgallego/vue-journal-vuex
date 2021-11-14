@@ -81,5 +81,16 @@ describe('Vuex - Test of journal store', () => {
       expect(store.getters['journal/getEntryById']('-MnCcoCt7Y0MJTKrUTrU')).toEqual(entry2);
       expect(store.getters['journal/getEntryById']('-MnCcoCt7Y0MJTKrUTrU').text).toContain('Segundo');
     });
-  })
+  });
+
+
+  describe('#Actions', () => {
+    test('loadEntries', async () => {
+      const store = createVuexStore({isLoading: false, entries: []});
+      await store.dispatch('journal/loadEntries');
+      expect(store.state.journal.entries.length).toBe(2);
+    });
+
+  });
+
 })
