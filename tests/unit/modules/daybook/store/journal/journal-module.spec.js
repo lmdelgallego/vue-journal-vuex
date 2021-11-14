@@ -91,6 +91,18 @@ describe('Vuex - Test of journal store', () => {
       expect(store.state.journal.entries.length).toBe(2);
     });
 
+    test('updateEntry', async () => {
+      const store = createVuexStore(testJournalState);
+      const updateEntry = {
+        ...testJournalEntry,
+        text: 'Hola Mundo desde prueba test'
+      }
+      await store.dispatch('journal/updateEntry', updateEntry);
+      expect(store.state.journal.entries.length).toBe(2);
+      expect(store.state.journal.entries.find( e => e.id === updateEntry.id))
+        .toEqual(updateEntry);
+    });
+
   });
 
 })
