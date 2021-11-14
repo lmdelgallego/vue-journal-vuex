@@ -15,7 +15,6 @@ const uploadImage = async (file) => {
       },
     });
 
-    console.log(data);
 
     return {picture: data.secure_url, picture_id: data.asset_id};
 

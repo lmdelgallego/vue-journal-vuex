@@ -1,6 +1,6 @@
 import {createStore} from 'vuex';
 import journal from '@/modules/daybook/store/journal';
-import {testJournalState, testJournalEntry} from 'tests/unit/mocks/test-journal-state';
+import {testJournalState, testJournalEntry} from '../../../../mocks/test-journal-state';
 
 
 const createVuexStore = (initialState) => createStore({
@@ -47,7 +47,7 @@ describe('Vuex - Test of journal store', () => {
         .toEqual('Hola Mundo desde prueba');
     });
 
-    test('addEntry', () => {
+    test('addEntry - deleteEntry', () => {
       const store = createVuexStore(testJournalState);
       const newEntry = {
         id: 't1',
@@ -67,5 +67,19 @@ describe('Vuex - Test of journal store', () => {
 
   })
 
+  describe('#Getters', () => {
+    const entry2 = testJournalState.entries[1];
+    test('should be return entry by term', () => {
+      const store = createVuexStore(testJournalState);
+      expect(store.getters['journal/getEntryByTerm']('').length).toEqual(2);
+      expect(store.getters['journal/getEntryByTerm']('Segundo')).toEqual([entry2]);
+      expect(store.getters['journal/getEntryByTerm']('Segundo')[0].text).toContain('Segundo');
+    });
 
+    test('should be return entry by ID', () => {
+      const store = createVuexStore(testJournalState);
+      expect(store.getters['journal/getEntryById']('-MnCcoCt7Y0MJTKrUTrU')).toEqual(entry2);
+      expect(store.getters['journal/getEntryById']('-MnCcoCt7Y0MJTKrUTrU').text).toContain('Segundo');
+    });
+  })
 })

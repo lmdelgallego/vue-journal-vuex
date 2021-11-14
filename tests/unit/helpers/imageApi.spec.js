@@ -16,10 +16,8 @@ describe('ImageApi', () => {
 
     const file = new File([data], 'foto.jpg');
 
-    console.log(file);
 
     const url = await imageApi(file);
-    console.log(url);
     expect(typeof url).toEqual('object');
     expect(url).toEqual({
       picture: expect.any(String),
