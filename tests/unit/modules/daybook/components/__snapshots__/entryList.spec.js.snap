@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EntryList.vue should be call getEntriesByTerm without terms and show two entries 1`] = `
+<div class="entry-list-container">
+  <div class="px-2 pt-2"><input type="text" class="form-control" placeholder="Buscar"></div>
+  <div class="mt-2 d-flex flex-column"><button type="button" class="btn btn-primary mx-3 mb-2"><i class="fa fa-plus-circle"></i> Nueva Entrada </button></div>
+  <div class="entry-scrollarea">
+    <entry-stub entry="[object Object]"></entry-stub>
+    <entry-stub entry="[object Object]"></entry-stub>
+  </div>
+</div>
+`;
