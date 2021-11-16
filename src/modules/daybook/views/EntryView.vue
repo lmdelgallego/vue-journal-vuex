@@ -9,7 +9,7 @@
 
     <div>
       <input type="file" @change="onSelectedImage" ref="imageSelector" accept="image/png, image/jpeg, image/gif" v-show="false">
-      <button class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
+      <button id="delete-entry" class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
         Borrar <i class="fa fa-trash-alt"></i>
       </button>
 
@@ -140,12 +140,12 @@ export default {
 
       console.log(isConfirmed);
       if(isConfirmed){
-        new Swal({
+        Swal.fire({
           title: 'Espere por favor',
           allowOutsideClick: false,
         });
         Swal.showLoading();
-        await this.removeEntry(this.entry);
+        // await this.removeEntry(this.entry);
         this.$router.push({name: 'daybook-no-entry'});
         Swal.fire('Borrado','Se ha borrado correctamente','success');
       }
