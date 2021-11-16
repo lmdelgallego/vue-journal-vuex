@@ -28,8 +28,8 @@ const mockRoute = {
 
 
 describe('EntryView', () => {
-
   const store = createVuexStore(testJournalState);
+  store.dispatch = jest.fn();
   let wrapper ;
 
   beforeEach(() => {
@@ -83,9 +83,14 @@ describe('EntryView', () => {
       confirmButtonText: 'Si, borrarlo!'
     });
     setTimeout(() => {
+      expect(store.dispatch).toBeCalled();
+      expect(store.dispatch).toBeCalledWith(
+        "journal/removeEntry",
+        {...testJournalEntry}
+      );
       expect(mockRoute.push).toBeCalled();
       done();
     }, 1);
+  });
 
-  })
 });

@@ -145,7 +145,7 @@ export default {
           allowOutsideClick: false,
         });
         Swal.showLoading();
-        // await this.removeEntry(this.entry);
+        await this.removeEntry(this.entry);
         this.$router.push({name: 'daybook-no-entry'});
         Swal.fire('Borrado','Se ha borrado correctamente','success');
       }
