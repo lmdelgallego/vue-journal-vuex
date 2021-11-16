@@ -138,7 +138,6 @@ export default {
         confirmButtonText: 'Si, borrarlo!'
       });
 
-      console.log(isConfirmed);
       if(isConfirmed){
         Swal.fire({
           title: 'Espere por favor',
