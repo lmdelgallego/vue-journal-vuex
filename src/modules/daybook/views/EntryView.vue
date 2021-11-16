@@ -9,7 +9,7 @@
 
     <div>
       <input type="file" @change="onSelectedImage" ref="imageSelector" accept="image/png, image/jpeg, image/gif" v-show="false">
-      <button class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
+      <button id="delete-entry" class="btn btn-danger mx-2" v-if="entry.id" @click="deleteEntry">
         Borrar <i class="fa fa-trash-alt"></i>
       </button>
 
@@ -55,6 +55,7 @@ import Swal from 'sweetalert2';
 import uploadImage from '@/helpers/imageApi';
 
 export default {
+  name: 'EntryView',
   props:{
     id: {
       type: String,
@@ -137,9 +138,8 @@ export default {
         confirmButtonText: 'Si, borrarlo!'
       });
 
-      console.log(isConfirmed);
       if(isConfirmed){
-        new Swal({
+        Swal.fire({
           title: 'Espere por favor',
           allowOutsideClick: false,
         });
