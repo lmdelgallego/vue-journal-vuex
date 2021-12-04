@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 
 import daybookRouter from '../modules/daybook/routes';
+import authRouter from '../modules/auth/router';
 
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/auth',
+    ...authRouter,
   },
   {
     path: '/daybook',
