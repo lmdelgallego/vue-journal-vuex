@@ -16,3 +16,18 @@ export const createUser = async ({commit}, user) => {
     return {ok: false, message: response.data.error.message};
   }
 }
+
+export const loginUser = async ({commit}, user) => {
+  try {
+    const { email, password } = user;
+    const {data} = await authApi.post(":signInWithPassword", { email, password, returnSecureToken: true });
+    const { idToken, refreshToken, displayName } = data;
+    delete user.password;
+    user.name = displayName;
+    commit('loginUser', {user, idToken, refreshToken});
+
+    return {ok: true, message: "User logged in", token: data.idToken};
+  } catch ({response}) {
+    return {ok: false, message: response.data.error.message};
+  }
+}
