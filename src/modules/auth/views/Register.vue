@@ -42,9 +42,9 @@ import useAuth from '../composables/useAuth';
       const { createUser } = useAuth();
 
       const userForm = ref({
-        name: '',
-        email: '',
-        password: '',
+        name: 'Test3',
+        email: 'test3@test3.com',
+        password: '123456',
       });
 
       return {
