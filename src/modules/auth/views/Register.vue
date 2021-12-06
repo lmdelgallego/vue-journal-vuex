@@ -51,7 +51,8 @@ import useAuth from '../composables/useAuth';
         userForm,
         onSubmit: async () => {
           try {
-            createUser(userForm.value);
+            const user = await createUser(userForm.value);
+            console.log(user);
           }
           catch (error) {
             console.log(error);
