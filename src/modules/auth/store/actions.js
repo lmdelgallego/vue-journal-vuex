@@ -31,3 +31,27 @@ export const loginUser = async ({commit}, user) => {
     return {ok: false, message: response.data.error.message};
   }
 }
+
+export const checkUser = async ({commit}) => {
+  const localIdToken = localStorage.getItem("idToken");
+  // const refreshToken = localStorage.getItem("refreshToken");
+
+  if(!localIdToken) {
+    commit('logoutUser');
+    return { ok: false, message: "No hay token" };
+  }
+
+  try {
+
+    const { data } = await authApi.post(":lookup", { idToken: localIdToken });
+    console.log(data);
+    const { refreshToken, displayName, email, idToken } = data.users[0];
+    const user = { name: displayName, email,  };
+    commit('loginUser', {user, idToken, refreshToken});
+    return { ok: true, message: "User logged in", token: idToken };
+
+  } catch (error) {
+    commit('logoutUser');
+    return { ok: false, message: "Token invalido" };
+  }
+}
