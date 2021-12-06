@@ -4,6 +4,6 @@ export const myGetter = (state) => {
 }
 */
 
-export const getToken = (state) => {
-    return state.idToken
+export const getCurrentState = (state) => {
+    return state.status
 }
