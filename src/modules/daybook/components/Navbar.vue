@@ -7,12 +7,30 @@
         height="24"
         class="d-inline-block aling-text-top mx-2"
       />
-      Daybook
+      Daybook - {{userName}}
     </a>
     <div class="d-flex">
-      <button class="btn btn-outline-info mx-2">
+      <button @click="onLogout" class="btn btn-outline-info mx-2">
         <i class="fa fa-sign-out-alt"></i>
       </button>
     </div>
   </nav>
 </template>
+
+<script>
+import useAuth from '@/modules/auth/composables/useAuth';
+import { useRouter } from 'vue-router';
+export default {
+  setup() {
+    const {userName, logout} = useAuth();
+    const router = useRouter();
+    return {
+      userName,
+      onLogout: () => {
+        logout();
+        router.push({name: 'login'});
+      },
+    };
+  }
+}
+</script>
