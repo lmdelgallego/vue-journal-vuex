@@ -12,6 +12,6 @@ journalApi.interceptors.request.use(config => {
   return config;
 });
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 export default journalApi;

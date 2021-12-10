@@ -8,6 +8,6 @@ const authApi = axios.create({
   }
 })
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 export default authApi;
