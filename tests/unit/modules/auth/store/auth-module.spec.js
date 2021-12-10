@@ -16,7 +16,7 @@ describe('Vuex: auth module', () => {
     expect(refreshToken).toBeNull();
   });
 
-  describe('#MUTATIONS', () => {
+  describe('#mutations', () => {
     test('loginUser', () => {
       const store = createVuexStore({
         status: 'authenticating',
@@ -60,6 +60,20 @@ describe('Vuex: auth module', () => {
 
       expect(localStorage.getItem('idToken')).toBeNull();
       expect(localStorage.getItem('refreshToken')).toBeNull();
+    });
+  });
+
+  describe('#getters', () => {
+    test('isAuthenticated', () => {
+      const store = createVuexStore({
+        status: 'authenticated',
+        user: { name: 'Luis Miguel', email: 'luismiguel@gmail.com' },
+        idToken: 'ABC-123',
+        refreshToken: 'ABC-123',
+      });
+
+      expect(store.getters['auth/getCurrentState']).toBe('authenticated');
+      expect(store.getters['auth/getUserName']).toBe('Luis Miguel');
     });
   });
 });
