@@ -76,4 +76,25 @@ describe('Vuex: auth module', () => {
       expect(store.getters['auth/getUserName']).toBe('Luis Miguel');
     });
   });
+
+  describe('#actions', () => {
+    test('createUser - usuario ya existe', async () => {
+      const store = createVuexStore({
+        status: 'not-authenticated',
+        user: null,
+        idToken: null,
+        refreshToken: null,
+      });
+
+      const newUser = {
+        name: 'Luis Miguel',
+        email: 'test@test.com',
+        password: '123456',
+      };
+
+      const response = await store.dispatch('auth/createUser', newUser);
+
+      expect(response).toEqual({ ok: false, message: 'EMAIL_EXISTS' });
+    });
+  });
 });
