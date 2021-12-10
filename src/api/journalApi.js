@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-
 const journalApi = axios.create({
-  baseURL: 'https://goalcoach-a4187.firebaseio.com'
+  baseURL: 'https://goalcoach-a4187.firebaseio.com',
 });
 
-journalApi.interceptors.request.use(config => {
+journalApi.interceptors.request.use((config) => {
   const token = localStorage.getItem('idToken');
-  config.params = {auth: token};
+  config.params = { auth: token };
   config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
