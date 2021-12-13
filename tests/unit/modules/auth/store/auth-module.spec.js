@@ -1,3 +1,4 @@
+import axios from 'axios';
 import createVuexStore from '../../../mocks/mock-store';
 
 describe('Vuex: auth module', () => {
@@ -95,6 +96,43 @@ describe('Vuex: auth module', () => {
       const response = await store.dispatch('auth/createUser', newUser);
 
       expect(response).toEqual({ ok: false, message: 'EMAIL_EXISTS' });
+    });
+
+    test('createUser - usuario creado', async () => {
+      const store = createVuexStore({
+        status: 'not-authenticated',
+        user: null,
+        idToken: null,
+        refreshToken: null,
+      });
+
+      const newUser = {
+        name: 'Test2',
+        email: 'test2@test.com',
+        password: '123456',
+      };
+
+      // signIn
+      await store.dispatch('auth/loginUser', newUser);
+      const { idToken } = store.state.auth;
+      // deleteUser
+      const deleteResponse = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyArFtSOsqmL0k31tCgy47dPKtffXTasr1o',
+        { idToken }
+      );
+      newUser['password'] = '123456';
+      //crearUser
+      const createResponse = await store.dispatch('auth/createUser', newUser);
+      expect(createResponse.ok).toBeTruthy();
+
+      const { status, user, idToken: token, refreshToken } = store.state.auth;
+      expect(status).toBe('authenticated');
+      expect(user).toMatchObject({
+        name: 'Test2',
+        email: 'test2@test.com',
+      });
+      expect(typeof token).toBe('string');
+      expect(typeof refreshToken).toBe('string');
     });
   });
 });
