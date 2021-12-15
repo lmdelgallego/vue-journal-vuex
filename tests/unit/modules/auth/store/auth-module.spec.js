@@ -154,7 +154,6 @@ describe('Vuex: auth module', () => {
 
       const checkResponse = await store.dispatch('auth/checkUser');
       expect(checkResponse.ok).toBeTruthy();
-      console.log(store.state.auth);
       const { status, user, idToken: token } = store.state.auth;
       expect(status).toBe('authenticated');
       expect(user).toMatchObject({
@@ -162,6 +161,35 @@ describe('Vuex: auth module', () => {
         email: 'test2@test.com',
       });
       expect(typeof token).toBe('string');
+    });
+
+    test('loginUser - idToken no existe', async () => {
+      const store = createVuexStore({
+        status: 'not-authenticated',
+        user: null,
+        idToken: null,
+        refreshToken: null,
+      });
+
+      localStorage.removeItem('idToken');
+      const checkResp1 = await store.dispatch('auth/checkUser');
+/*
+      const response = await store.dispatch('auth/loginUser', {
+        email: 'test4@test.com',
+        password: '123456',
+      }); */
+
+      expect(checkResp1).toEqual({ ok: false, message: 'No hay token' });
+      expect(store.state.auth.status).toBe('not-authenticated');
+      expect(store.state.auth.user).toBeNull();
+      expect(store.state.auth.idToken).toBeNull();
+
+      localStorage.setItem('idToken', 'ABC-123');
+      const checkResp2 = await store.dispatch('auth/checkUser');
+      expect(checkResp2).toEqual({ ok: false, message: 'Token invalido' });
+      expect(store.state.auth.status).toBe('not-authenticated');
+      expect(store.state.auth.user).toBeNull();
+      expect(store.state.auth.idToken).toBeNull();
     });
   });
 });
