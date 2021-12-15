@@ -116,7 +116,7 @@ describe('Vuex: auth module', () => {
       await store.dispatch('auth/loginUser', newUser);
       const { idToken } = store.state.auth;
       // deleteUser
-      const deleteResponse = await axios.post(
+      await axios.post(
         'https://identitytoolkit.googleapis.com/v1/accounts:delete?key=AIzaSyArFtSOsqmL0k31tCgy47dPKtffXTasr1o',
         { idToken }
       );
@@ -133,6 +133,35 @@ describe('Vuex: auth module', () => {
       });
       expect(typeof token).toBe('string');
       expect(typeof refreshToken).toBe('string');
+    });
+
+    test('loginUser - usuario existe', async () => {
+      const store = createVuexStore({
+        status: 'not-authenticated',
+        user: null,
+        idToken: null,
+        refreshToken: null,
+      });
+
+      await store.dispatch('auth/loginUser', {
+        email: 'test2@test.com',
+        password: '123456',
+      });
+
+      const { idToken } = store.state.auth;
+      localStorage.setItem('idToken', idToken);
+      expect(typeof idToken).toBe('string');
+
+      const checkResponse = await store.dispatch('auth/checkUser');
+      expect(checkResponse.ok).toBeTruthy();
+      console.log(store.state.auth);
+      const { status, user, idToken: token } = store.state.auth;
+      expect(status).toBe('authenticated');
+      expect(user).toMatchObject({
+        name: 'Test2',
+        email: 'test2@test.com',
+      });
+      expect(typeof token).toBe('string');
     });
   });
 });
